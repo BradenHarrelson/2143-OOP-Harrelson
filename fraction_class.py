@@ -48,7 +48,6 @@ class fraction(object):
             x = self.numerator + rhs.numerator
             y = self.denominator
             return fraction(x,y)
-            
         else:
             self.numerator = self.numerator * rhs.denominator
             rhs.numerator = rhs.numerator * self.denominator
