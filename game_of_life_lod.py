@@ -76,14 +76,14 @@ class golBoard(object):
 
         print(self.getNeighborWindow(r,c))
 
-        neighbors.append(self.currentGen[(r - 1) % self.height][(c - 1) % self.width])  # upper left
-        neighbors.append(self.currentGen[r][(c - 1) % self.height])                     # upper middle
-        neighbors.append(self.currentGen[(r + 1) % self.height][(c - 1) % self.width])  # upper right
-        neighbors.append(self.currentGen[(r + 1) % self.height][c])                     # right
-        neighbors.append(self.currentGen[(r - 1) % self.height][c])                     # left
-        neighbors.append(self.currentGen[(r - 1) % self.height][(c + 1) % self.width])  # bottom left
-        neighbors.append(self.currentGen[r][(c + 1) % self.width])                      # bottom middle
-        neighbors.append(self.currentGen[(r + 1) % self.height][(c + 1) % self.width])  # bottom right
+        neighbors.append(self.currentGen[(r-1) % self.height][(c-1) % self.width])  # upper left
+        neighbors.append(self.currentGen[(r-1) % self.height][c])                   # upper middle
+        neighbors.append(self.currentGen[(r-1) % self.height][(c+1) % self.width])  # upper right
+        neighbors.append(self.currentGen[r][(c+1) % self.width])                    # right
+        neighbors.append(self.currentGen[r][(c-1) % self.width])                    # left
+        neighbors.append(self.currentGen[(r+1) % self.height][(c-1) % self.width])  # bottom left
+        neighbors.append(self.currentGen[(r+1) % self.height][c])                   # bottom middle
+        neighbors.append(self.currentGen[(r+1) % self.height][(c+1) % self.width])  # bottom right
 
             
         count = neighbors.count(True)
