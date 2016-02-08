@@ -76,6 +76,10 @@ class golBoard(object):
 
         print(self.getNeighborWindow(r,c))
 
+        #Live or Die is determined by wrapping around to check the bit on the other side
+        #this is done with the modulo in order to make any space that is negative check the 
+        #space on the opposite side
+
         neighbors.append(self.currentGen[(r-1) % self.height][(c-1) % self.width])  # upper left
         neighbors.append(self.currentGen[(r-1) % self.height][c])                   # upper middle
         neighbors.append(self.currentGen[(r-1) % self.height][(c+1) % self.width])  # upper right
