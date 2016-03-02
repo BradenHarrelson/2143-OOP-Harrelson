@@ -106,7 +106,6 @@ class AsciiImage(RandomCat):
         self.newHeight = 0
             
         self.asciiChars = [ '#', 'A', '@', '%', 'S', '+', '<', '*', ':', ',', '.']
-        self.inverted = None
         self.imageAsAscii = []
         self.matrix = None
         
