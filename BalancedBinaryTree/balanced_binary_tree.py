@@ -30,7 +30,17 @@ class BalancedSearch(object):
                     self.tree[i] = val
                     self.items += 1
                     loop = False
-            
+                    
+    """
+    @Name: insertList
+    @Description:
+        Receives a list of unordered integers and inserts them into the binary tree in such a manner that the resulting tree is balanced.
+    @Params:
+        values (List) - unorderd list of integers
+    @Returns: None
+    """
+    def insertList(self):
+        pass
         
     def extend(self):
         temp = [-1 for x in range(self.size)]
