@@ -7,7 +7,15 @@ class BalancedSearch(object):
         self.root = 1
         self.items = 0
     
-    
+    """
+    @Name: insert
+    @Description:
+        Receives an integer and inserts it into the binary tree.
+    @Params:
+        values (val) - a value to enter into the list
+    @Returns: 
+        None
+    """
     def insert(self,val):
         # If list (tree) is empty, put value at root
         if self.tree[self.root] == -1:
@@ -37,17 +45,36 @@ class BalancedSearch(object):
         Receives a list of unordered integers and inserts them into the binary tree in such a manner that the resulting tree is balanced.
     @Params:
         values (List) - unorderd list of integers
-    @Returns: None
+    @Returns: 
+        None
     """
-    def insertList(self):
+    def insertList(self,list):
         pass
-        
+     
+    """
+    @Name: extend
+    @Description:
+        increases the size of the tree
+    @Params: 
+        None
+    @Returns: 
+        None
+    """   
     def extend(self):
         temp = [-1 for x in range(self.size)]
         self.tree.extend(temp)
         self.size *= 2
         print(self.items)
-        
+
+    """
+    @Name: find
+    @Description:
+        searches the tree for a value
+    @Params:
+        values (key) - value to be searched for
+    @Returns: 
+        wether or not the key is in the tree
+    """ 
     def find(self,key):
     
         self.comparisons = 1
@@ -73,10 +100,27 @@ class BalancedSearch(object):
                     
                 self.comparisons += 1
                 
-                
+    """
+    @Name: leftChild
+    @Description:
+        used to handle the case of a left child
+    @Params:
+        values (i) - index
+    @Returns: 
+        the new index of the child
+    """           
     def leftChild(self,i):
         return 2 * i
-        
+
+    """
+    @Name: rightChild
+    @Description:
+        used to handle the case of a right child
+    @Params:
+        values (i) - index
+    @Returns: 
+        the new index of the child
+    """    
     def rightChild(self,i):
         return 2 * i + 1
         
