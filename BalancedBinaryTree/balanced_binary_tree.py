@@ -38,7 +38,6 @@ class BalancedSearch(object):
                     i = self.leftChild(i)
                 
                 if i >= self.size:
-                    #print(".")
                     self.extend()
                 
                 if self.tree[i] == -1:
@@ -58,27 +57,37 @@ class BalancedSearch(object):
     def insertList(self,list, start, end):
         list.sort()
         #print(list)
+        start = 0
         if len(list) % 2 == 0:
             midpos = (len(list) // 2) -1
         else:
             midpos = (len(list) // 2)
         midnum = list[midpos]
-        #print(midnum)
-        self.insert(midnum)
-        newlistL = []
-        newlistL = list[start:(midpos)]
-        #print(newlistL)
-        for x in range(len(newlistL)):
-            self.insert(x)
-        newlistR = []
-        newlistR = list[midpos + 1:end + 1]
-        #print(newlistR)
-        for x in range(len(newlistR)):
-            self.insert(x)
-           
-        
-        
-            
+        #print(midpos)
+        if  self.tree[self.root] == -1:
+            self.tree[self.root] = (midnum) 
+            #print(self.tree[self.root])
+        elif len(list) == 1:
+              if list[0] > midnum:
+                self.rightChild(list[0])
+              else:
+                self.leftChild(list[0])
+        elif len(list) != 1:
+              for i in range(len(list)):
+                if list[i] > midnum:
+                    self.rightChild(list[i])
+                else:
+                    self.leftChild(list[i])
+        if len(list[start:(midpos)]) > 1:        
+            newlistL = []
+            newlistL = list[start:(midpos)]
+            self.insertList(newlistL,start,(len(newlistL)-1) )
+        if len(list[midpos + 1:end + 1]) > 1:
+            newlistR = []
+            newlistR = list[midpos + 1:end + 1]
+            self.insertList(newlistR,start , (len(newlistR)-1) )
+
+                
         
     """
     @Name: extend
@@ -154,7 +163,7 @@ class BalancedSearch(object):
         return 2 * i + 1
         
 random.seed(342345)
-v = int(input("Please enter the amount of values to be inserted. We could only get 1-50 to work because it's not effecient. "))
+v = int(input("Please enter the amount of values to be inserted. "))
 bs = BalancedSearch(v)
 #for x in range(1000):
     #bs.insert(random.randint(0,10))
@@ -167,7 +176,6 @@ for x in range(v):
     #if it's not already in the list, enter it.
     if r not in unique:
         unique.append(r)
-end  = len(unique) - 1 
+end = len(unique) - 1 
 start = 0;
 bs.insertList(unique, start , end)
-print("A balanced but not full tree has been created!")
