@@ -1,4 +1,10 @@
+"""
+Kevin Ellis
+Braden Harrelson
+"""
+
 import random
+import string
 
 class BalancedSearch(object):
     def __init__(self,size=16):
@@ -32,6 +38,7 @@ class BalancedSearch(object):
                     i = self.leftChild(i)
                 
                 if i >= self.size:
+                    #print(".")
                     self.extend()
                 
                 if self.tree[i] == -1:
@@ -48,9 +55,31 @@ class BalancedSearch(object):
     @Returns: 
         None
     """
-    def insertList(self,list):
-        pass
-     
+    def insertList(self,list, start, end):
+        list.sort()
+        #print(list)
+        if len(list) % 2 == 0:
+            midpos = (len(list) // 2) -1
+        else:
+            midpos = (len(list) // 2)
+        midnum = list[midpos]
+        #print(midnum)
+        self.insert(midnum)
+        newlistL = []
+        newlistL = list[start:(midpos)]
+        #print(newlistL)
+        for x in range(len(newlistL)):
+            self.insert(x)
+        newlistR = []
+        newlistR = list[midpos + 1:end + 1]
+        #print(newlistR)
+        for x in range(len(newlistR)):
+            self.insert(x)
+           
+        
+        
+            
+        
     """
     @Name: extend
     @Description:
@@ -59,12 +88,12 @@ class BalancedSearch(object):
         None
     @Returns: 
         None
-    """   
+    """  
     def extend(self):
         temp = [-1 for x in range(self.size)]
         self.tree.extend(temp)
         self.size *= 2
-        print(self.items)
+        #print(self.items)
 
     """
     @Name: find
@@ -125,6 +154,20 @@ class BalancedSearch(object):
         return 2 * i + 1
         
 random.seed(342345)
-bs = BalancedSearch(4096)
-for x in range(1000):
-    bs.insert(random.randint(0,99999))
+v = int(input("Please enter the amount of values to be inserted. We could only get 1-50 to work because it's not effecient. "))
+bs = BalancedSearch(v)
+#for x in range(1000):
+    #bs.insert(random.randint(0,10))
+#Create a list to hold unique integers
+unique = []
+#loop v times
+for x in range(v):
+    #get a random number
+    r = random.randint(0,99999)
+    #if it's not already in the list, enter it.
+    if r not in unique:
+        unique.append(r)
+end  = len(unique) - 1 
+start = 0;
+bs.insertList(unique, start , end)
+print("A balanced but not full tree has been created!")
