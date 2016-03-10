@@ -163,7 +163,7 @@ class BalancedSearch(object):
         return 2 * i + 1
         
 random.seed(342345)
-v = int(input("Please enter the amount of values to be inserted. "))
+v = int(input("Please enter the amount of values (1 - 100,000) to be inserted. "))
 bs = BalancedSearch(v)
 #for x in range(1000):
     #bs.insert(random.randint(0,10))
@@ -179,3 +179,4 @@ for x in range(v):
 end = len(unique) - 1 
 start = 0;
 bs.insertList(unique, start , end)
+print("A balanced binary tree was created!")
