@@ -207,7 +207,9 @@ class video_poker(object):
 
     def pair(self,hand):
         if len(hand.rankCount) == 4:
-            return True
+            for c in hand.rankCount:
+                if c > 10 and hand.rankCount[c] == 2:
+                    return True
         
     def twoPair(self,hand):
         if len(hand.rankCount) == 3:
@@ -219,19 +221,7 @@ class video_poker(object):
                 return True
                 
     def straight(self,hand):
-        number = hand.cards[0].rank
-        count = number
-        same = True
-        while same == True:
-            for i in range(len(hand.cards)):
-                if count == number:
-                    count = count + 1
-                    number = hand.cards[i+1]
-                    same = True
-                else:
-                    same = False
-                    return False
-        return same
+        return (hand.cards[4].rank - hand.cards[0].rank) == 4 and len(hand.rankCount) == 5
     
     def flush(self,hand):
         if len(hand.suitCount) == 1:
@@ -258,7 +248,8 @@ class video_poker(object):
     def aceStraight(self,hand):
         if hand.cards[4].rank == 14:
             if hand.cards[4].rank - hand.cards[0] == 4:
-                return True
+                if len(hand.rankCount) == 5:
+                    return True
 """
 @Class game_driver
 @Description:
