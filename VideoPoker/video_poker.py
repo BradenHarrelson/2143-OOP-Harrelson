@@ -164,9 +164,17 @@ class video_poker(object):
             
     def checkHand(self,hand):
         hand.sortHand()
-        if self.straight == True and self.flush == True:
+        if self.flush(hand) and aceStraight(hand):
+            return 800
+        if self.fourEightsOrAces(hand):
+            return 80
+        if self.straight(hand) and self.flush(hand):
             return 50
-        if self.threeOfAKind == True and self.pair == True:
+        if self.fourSevens(hand):
+            return 50
+        if self.fourOfAKind(hand):
+            return 25
+        if self.threeOfAKind(hand) and self.pair(hand):
             return 8
         if self.flush(hand):
             return 5
@@ -199,6 +207,27 @@ class video_poker(object):
     def flush(self,hand):
         if len(hand.suitCount) == 1:
             return True
+            
+    def fourOfAKind(self,hand):
+        for c in hand.rankCount:
+            if hand.rankCount[c] == 4:
+                return True
+                
+    def fourSevens(self,hand):
+        if 7 in hand.rankCount:
+            if hand.rankCount[7] == 4:
+                return True
+                
+    def fourEightsOrAces(self,hand):
+        if 8 in hand.rankCount:
+            if hand.rankCount[8] == 4:
+                return True
+        if 14 in hand.rankCount:
+            if hand.rankCount[14] == 4:
+                return True
+                
+    def aceStraight(self,hand):
+        return False
         
 class game_driver(video_poker):
     def __init__(self):
