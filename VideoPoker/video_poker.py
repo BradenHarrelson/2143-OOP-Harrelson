@@ -101,8 +101,8 @@ class Hand(Deck):
             self.rankCount[card.rank] = 1
         else:
             self.rankCount[card.rank] += 1  
-            
-        self.cards.append(card)
+        if len(self.cards) < 5:  
+            self.cards.append(card)
         
     def getCards(self):
 
@@ -112,10 +112,17 @@ class Hand(Deck):
         self.cards = sorted(self.cards)
         
     def replaceCard(self,id,card):
-        # print(self.rankCount)
-        # print(self.suitCount)
-        # print(id)
+        p = self.cards[id]
+        self.addCard(card)
         self.cards[id] = card
+        if self.rankCount[p.rank] > 1:
+            self.rankCount[p.rank] -= 1
+        else:
+            self.rankCount.pop(p.rank,None)
+        if self.suitCount[p.suit] > 1:
+            self.suitCount[p.suit] -= 1
+        else:
+            self.suitCount.pop(p.suit,None)
         
     def getPosition(self,card):
         return self.cards.index(card)
@@ -147,29 +154,51 @@ class video_poker(object):
         self.deck.shuffle()
 
         for i in range(0,number):
-            self.hand.addCard(self.deck.pop_card())
-            
+            self.hand.addCard(self.deck.pop_card())  
         print(self.hand)
+        print('')
         return self.hand
         
     def getCard(self):
         return self.deck.pop_card()
             
     def checkHand(self,hand):
-        for c in self.hand.getCards():
-            pass
+        hand.sortHand()
+        if self.straight == True and self.flush == True:
+            return 50
+        if self.threeOfAKind == True and self.pair == True:
+            return 8
+        if self.flush(hand):
+            return 5
+        if self.straight(hand):
+            return 4
+        if self.threeOfAKind(hand):
+            return 3
+        if self.twoPair(hand):
+            return 2
+        if self.pair(hand):
+            return 1
+        return 0
 
-    def pair(self):
-        pass
+    def pair(self,hand):
+        if len(hand.rankCount) == 4:
+            return True
         
-    def twoPair(self):
-        pass
+    def twoPair(self,hand):
+        if len(hand.rankCount) == 3:
+            return True
     
-    def threeOfAKind(self):
-        pass
+    def threeOfAKind(self,hand):
+        for c in hand.rankCount:
+            if hand.rankCount[c] == 3:
+                return True
+                
+    def straight(self,hand):
+        return False
     
-    def flush(self):
-        pass
+    def flush(self,hand):
+        if len(hand.suitCount) == 1:
+            return True
         
 class game_driver(video_poker):
     def __init__(self):
@@ -177,21 +206,30 @@ class game_driver(video_poker):
         
     def print_menu(self):
         print("1: New Game")
-        print("2: Play Again")
+        print("2: Play Again(same deck)")
         print("3: Quit")
         x = int(input(''))
+        print('')
         if x == 1 or x == 2:
+            if x == 1:
+                self.deck = Deck()
             self.deal()
-            num = input("Enter the indices of up to 5 numbers separated by commas of the cards you wish to remove(1-5, ex.'1,3,5'): ")
-            num_list = num.split(',')
-            numbers = [int(x.strip()) for x in num_list]
-            for i in numbers:
-                i = i - 1
-                y = self.deck.pop_card()
-                self.hand.replaceCard(i,y)
+            num = input("Enter the indices of up to 5 numbers separated by commas of the cards you wish to remove(1-5). 0 to keep your cards.(ex.'1,3,5'): ")
+            if num != '0': 
+                num_list = num.split(',')
+                numbers = [int(x.strip()) for x in num_list]
+                for i in numbers:
+                    i = i - 1
+                    y = self.deck.pop_card()
+                    #print(self.hand.rankCount)
+                    self.hand.replaceCard(i,y)
+            print('')
             print(self.hand)
-                    
-            print('Your hand is worth')
+            s = video_poker().checkHand(self.hand)
+            print(('Your hand is worth %d points.') % (s))
+            print('')
+            self.hand.trashHand()
+            self.print_menu()
             
         else:
             print("Maybe next time!")
