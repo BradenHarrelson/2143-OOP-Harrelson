@@ -1,3 +1,9 @@
+"""
+Braden Harrelson
+2143-OOP
+Dr.Griffin
+"""
+
 import os
 import random
 import time        
@@ -5,7 +11,8 @@ import time
 """
 @Class Card 
 @Description:
-    
+    Creates each instance of a card that is put into a deck and then
+    put into hands    
 """
 class Card(object):
     
@@ -135,14 +142,24 @@ class Hand(Deck):
        
 
 """
-@Class Game
+@Class video_poker
 @Description:
-    This is where I will put my game logic.  
+    This is where the game deals with dealing cards and determining
+    winning hands.  
 @Methods:
-    addImage(x,y,w,h,path) - stores an images location, size and path  
-    checkClicked(x,y) - returns the ID of an image that was clicked
-    drawImage() - displays an image on the graphics window
-    pushImage() - cheesy animation to "push" an image  
+    def __init__(self): -constructor for class
+    def deal(self,number=5): -creates a deck
+    def getCard(self): -gets a card off the top of the deck      
+    def checkHand(self,hand): -checks the hand for winning hands
+    def pair(self,hand): -checks for a pair
+    def twoPair(self,hand): -checks for two pair
+    def threeOfAKind(self,hand): -checks for three of a kind
+    def straight(self,hand): -checks for a straight
+    def flush(self,hand): -checks for a flush
+    def fourOfAKind(self,hand): -checks for four of a kind
+    def fourSevens(self,hand): -checks for four sevens         
+    def fourEightsOrAces(self,hand): -checks for four eights or aces             
+    def aceStraight(self,hand): -checks for a ace high straight
 """  
         
 class video_poker(object):
@@ -202,7 +219,19 @@ class video_poker(object):
                 return True
                 
     def straight(self,hand):
-        return False
+        number = hand.cards[0].rank
+        count = number
+        same = True
+        while same == True:
+            for i in range(len(hand.cards)):
+                if count == number:
+                    count = count + 1
+                    number = hand.cards[i+1]
+                    same = True
+                else:
+                    same = False
+                    return False
+        return same
     
     def flush(self,hand):
         if len(hand.suitCount) == 1:
@@ -227,8 +256,18 @@ class video_poker(object):
                 return True
                 
     def aceStraight(self,hand):
-        return False
-        
+        if hand.cards[4].rank == 14:
+            if hand.cards[4].rank - hand.cards[0] == 4:
+                return True
+"""
+@Class game_driver
+@Description:
+    This is the class that drives the game and run everything together.  
+@Methods:
+    def __init__(self): -constructor
+    def print_menu(self): -main method to run game, prompts the game 
+""" 
+
 class game_driver(video_poker):
     def __init__(self):
         super().__init__()
@@ -268,6 +307,6 @@ class game_driver(video_poker):
         
 if __name__=='__main__':
 
-    g = game_driver()
-    g.print_menu()
+    g = game_driver()  #creating an instance of the game
+    g.print_menu()     #starting the game
     
